@@ -8,6 +8,7 @@ __global__ void hello(){
 }
 
 int main(void){
+  printf("hello world");
   int num_threads = STR_LENGTH;
   int num_blocks = 1;
   hello<<<num_blocks, num_threads>>>();
