@@ -7,11 +7,11 @@ __global__ void addKernel(int *c, const int *a){
     int i = threadIdx.x;
     extern __shared__ int seme [];
     seme[i] = a[i]
-    __syncthreads();  #同一个块的线程同步
-    if(i==0){ #第一个线程进行二次方
+    __syncthreads();  //同一个块的线程同步
+    if(i==0){ //第一个线程进行二次方
         c[0] = 0;
         for (int d=0; d<5; d++){
-            c[0] += seme[d] * seme [d]
+            c[0] += seme[d] * seme [d];
         }
     }
     if(i==1){
@@ -21,7 +21,7 @@ __global__ void addKernel(int *c, const int *a){
         }
     }
     if(i==2){
-        c[2] = 0
+        c[2] = 1
         for(int d=0; d<5; d++){
             c[2] *= seme[d];
         }
@@ -34,13 +34,13 @@ int main(){
     int c[arraySize] = {0};
     cudaError_t cudaStatus = addWithCuda(c, a, arraySize)
     if (cudaError_t != cudaSuccess){
-        fprint(stderr, "addWithCuda 失败");
+        fprintf(stderr, "addWithCuda 失败");
         return 1;
     }
     printf("\t1+2+3+4+5 = %d\n\t1^2+2^2+3^2+4^2+5^2 = %d\n\t1*2*3*4*5 = %d\n\n\n\n\n\n", c[1], c[0], c[2]);
     cudaStatus = cudaThreadExit();
     if (cudaStatus != cudaSuccess){
-        fprint(stderr, "cudaThreadExit 失败");
+        fprintf(stderr, "cudaThreadExit 失败");
         return 1;
     }
     return 0;
@@ -53,17 +53,17 @@ cudaError_t addWithCuda(int *c, const int *a, size_t size){
     
     cudaStatus = cudaMalloc((void**)&dev_c, size * sizeof(int));
     if (cudaStatus != cudaSuccess){
-        fprint(stderr, "cuda 分配内存失败")
+        fprintf(stderr, "cuda 分配内存失败");
         goto Error;
     }
     cudaStatus = cudaMalloc((void**)&dev_a, size * sizeof(int));
     if (cudaStatus != cudaSuccess){
-        fprint(stderr, "cuda 分配内存失败")
+        fprintf(stderr, "cuda 分配内存失败");
         goto Error;
     }
     cudaStatus = cudaMemcpy(a, dev_a, size * sizeof(int), cudaMemcpyHostToDevice);
     if (cudaStatus != cudaSuccess){
-        fprint(stderr, "从Device向Hostcopy数据失败")
+        fprintf(stderr, "从Device向Hostcopy数据失败");
         goto Error;
     }
 
@@ -71,13 +71,13 @@ cudaError_t addWithCuda(int *c, const int *a, size_t size){
 
     cudaStatus = cudaThreadSynchronize();
     if (cudaStatus != cudaSuccess){
-        fprint(stderr, "cuda线程同步异常")
+        fprintf(stderr, "cuda线程同步异常");
         goto Error;
     }
 
     cudaStatus = cudaMemcpy(c, dev_c, size * sizeof(int), cudaMemcpyDeviceToHost);
     if (cudaStatus != cudaSuccess){
-        fprint(stderr, "从Device向Hostcopy数据失败")
+        fprintf(stderr, "从Device向Hostcopy数据失败");
         goto Error;
     }
 
