@@ -18,6 +18,7 @@ __global__ void addKernel(int *c, const int *a){
         for (int d=0; d<5; d++){
             c[0] += seme[d] * seme [d];
         }
+        printf("给 seme 赋值 %d ", i);
         seme[i] = 0;
     }
     if(i==1){
@@ -25,6 +26,7 @@ __global__ void addKernel(int *c, const int *a){
         for (int d=0; d<5; d++){
             c[1] += seme[d];
         }
+        printf("给 seme 赋值 %d ", i);
         seme[i] = 0;
     }
     if(i==2){
@@ -32,6 +34,7 @@ __global__ void addKernel(int *c, const int *a){
         for(int d=0; d<5; d++){
             c[2] *= seme[d];
         }
+        printf("给 seme 赋值 %d ", i);
         seme[i] = 0;
     }
 }
