@@ -6,7 +6,7 @@ cudaError_t addWithCuda(int *c, int *a, size_t size);
 __global__ void addKernel(int *c, const int *a){
     int i = threadIdx.x;
     extern __shared__ int seme [];
-    seme[i] = a[i]
+    seme[i] = a[i];
     __syncthreads();  //同一个块的线程同步
     if(i==0){ //第一个线程进行二次方
         c[0] = 0;
@@ -21,7 +21,7 @@ __global__ void addKernel(int *c, const int *a){
         }
     }
     if(i==2){
-        c[2] = 1
+        c[2] = 1;
         for(int d=0; d<5; d++){
             c[2] *= seme[d];
         }
@@ -29,8 +29,8 @@ __global__ void addKernel(int *c, const int *a){
 }
 
 int main(){
-    const int arraySize = 5;
-    const int a[arraySize] = {1, 2, 3, 4, 5};
+    int arraySize = 5;
+    int a[arraySize] = {1, 2, 3, 4, 5};
     int c[arraySize] = {0};
     cudaError_t cudaStatus = addWithCuda(c, a, arraySize)
     if (cudaError_t != cudaSuccess){
