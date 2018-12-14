@@ -1,7 +1,7 @@
 #include <cuda_runtime.h>
 #include <stdio.h>
 
-cudaError_t addWithCuda(int *c, int *a, size_t size);
+cudaError_t addWithCuda(int *c, const int *a, size_t size);
 
 __global__ void addKernel(int *c, const int *a){
     int i = threadIdx.x;
@@ -29,10 +29,10 @@ __global__ void addKernel(int *c, const int *a){
 }
 
 int main(){
-    int arraySize = 5;
-    int a[arraySize] = {1, 2, 3, 4, 5};
+    const int arraySize = 5;
+    const int a[arraySize] = {1, 2, 3, 4, 5};
     int c[arraySize] = {0};
-    cudaError_t cudaStatus = addWithCuda(c, a, arraySize)
+    cudaError_t cudaStatus = addWithCuda(c, a, arraySize);
     if (cudaError_t != cudaSuccess){
         fprintf(stderr, "addWithCuda 失败");
         return 1;
@@ -46,7 +46,7 @@ int main(){
     return 0;
 }
 
-cudaError_t addWithCuda(int *c, const int *a, size_t size){
+cudaError_t addWithCuda(int *c,const int *a, size_t size){
     int *dev_a = 0;
     int *dev_c = 0;
     cudaError_t cudaStatus;
@@ -67,7 +67,7 @@ cudaError_t addWithCuda(int *c, const int *a, size_t size){
         goto Error;
     }
 
-    addKernel<<1, size, size * sizeof(int), 0>>(dev_c, dev_a);
+    addKernel<<<1, size, size * sizeof(int), 0>>>(dev_c, dev_a);
 
     cudaStatus = cudaThreadSynchronize();
     if (cudaStatus != cudaSuccess){
