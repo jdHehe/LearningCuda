@@ -16,7 +16,7 @@ __global__ void addKernel(int *c, const int *a){
     if(i==0){ //第一个线程进行二次方
         c[0] = 0;
         for (int d=0; d<5; d++){
-            printf("seme[d] * seme [d] %d ", d);
+            printf("seme[d] * seme [d] %d \n", d);
             c[0] += seme[d] * seme [d];
         }
         printf("给 seme 赋值 %d ", i);
@@ -25,7 +25,7 @@ __global__ void addKernel(int *c, const int *a){
     if(i==1){
         c[1] = 0;
         for (int d=0; d<5; d++){
-            printf("c[1] += seme[d] %d ", d);
+            printf("c[1] += seme[d] %d \n", d);
             c[1] += seme[d];
         }
         printf("给 seme 赋值 %d ", i);
@@ -34,7 +34,7 @@ __global__ void addKernel(int *c, const int *a){
     if(i==2){
         c[2] = 1;
         for(int d=0; d<5; d++){
-            printf("c[2] *= seme[d] %d ", d);
+            printf("c[2] *= seme[d] %d \n", d);
             c[2] *= seme[d];
         }
         printf("给 seme 赋值 %d ", i);
