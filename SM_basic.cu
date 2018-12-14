@@ -33,7 +33,7 @@ int main(){
     const int a[arraySize] = {1, 2, 3, 4, 5};
     int c[arraySize] = {0};
     cudaError_t cudaStatus = addWithCuda(c, a, arraySize);
-    if (cudaError_t != cudaSuccess){
+    if (cudaStatus != cudaSuccess){
         fprintf(stderr, "addWithCuda 失败");
         return 1;
     }
@@ -61,7 +61,7 @@ cudaError_t addWithCuda(int *c,const int *a, size_t size){
         fprintf(stderr, "cuda 分配内存失败");
         goto Error;
     }
-    cudaStatus = cudaMemcpy(a, dev_a, size * sizeof(int), cudaMemcpyHostToDevice);
+    cudaStatus = cudaMemcpy(dev_a, a, size * sizeof(int), cudaMemcpyHostToDevice);
     if (cudaStatus != cudaSuccess){
         fprintf(stderr, "从Device向Hostcopy数据失败");
         goto Error;
