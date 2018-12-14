@@ -18,21 +18,21 @@ __global__ void addKernel(int *c, const int *a){
         for (int d=0; d<5; d++){
             c[0] += seme[d] * seme [d];
         }
-        seme[i] = 0
+        seme[i] = 0;
     }
     if(i==1){
         c[1] = 0;
         for (int d=0; d<5; d++){
             c[1] += seme[d];
         }
-        seme[i] = 0
+        seme[i] = 0;
     }
     if(i==2){
         c[2] = 1;
         for(int d=0; d<5; d++){
             c[2] *= seme[d];
         }
-        seme[i] = 0
+        seme[i] = 0;
     }
 }
 
